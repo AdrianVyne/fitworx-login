@@ -24,6 +24,15 @@ use App\Http\Controllers\AttendanceController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// testdb connection
+Route::get('/testdb', function () {
+    try {
+        $results = DB::select('SHOW TABLES');
+        print_r($results);
+    } catch (\Exception $e) {
+        die("Could not connect to the database. " . $e->getMessage());
+    }
+});
 
 // Login
 Route::view('/', 'index')->name('login');
@@ -35,21 +44,21 @@ Route::get("/logout", [GymController::class, "logout"]);
 Route::middleware('auth')->group(function () {
 
     // Admin routes
-    Route::prefix("/admin")->group(function(){
+    Route::prefix("/admin")->group(function () {
 
         // Dashboard
         Route::get("/dashboard", [GymController::class, "index"])->name("admin.dashboard");
-        
+
 
         // Members
         Route::resource('members', MemberController::class)->except(['show']);
-        
-        Route::get('/manage-member', [MemberController::class, "manageMembers"]); 
+
+        Route::get('/manage-member', [MemberController::class, "manageMembers"]);
 
         // Equipments
 
         Route::resource('equipments', EquipmentController::class)->except(['show']);
-        
+
         Route::get("/manage-equipments", [EquipmentController::class, "manageEquipments"]); //manage
 
 
@@ -58,7 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::get("/attendance", [MemberController::class, "attendance"]);
 
         Route::get("/check-in/{id}", [AttendanceController::class, "checkIn"]);
-        
+
         Route::get("/check-out/{id}", [AttendanceController::class, "checkOut"]);
 
         Route::get("/attendance-view", [AttendanceController::class, "viewAttendance"]);
@@ -70,7 +79,7 @@ Route::middleware('auth')->group(function () {
         Route::get("/edit-progress/{id}", [MemberController::class, "editProgress"]);
 
         Route::post("/update-progress", [MemberController::class, "updateProgress"]);
-        
+
         // Payments
         Route::get("/payments", [MemberController::class, "payments"]);
 
@@ -86,13 +95,12 @@ Route::middleware('auth')->group(function () {
 
         // Reports 
         Route::get("/reports", [MemberController::class, "reports"]);
-        
+
         Route::get("/member-report/{id}", [MemberController::class, "memberReport"]);
-        
+
         Route::get("/progress-reports", [MemberController::class, "progressReports"]);
-        
+
         Route::get("/member-progress-report/{id}", [MemberController::class, "memberProgressReport"]);
     });
 
 });
-
