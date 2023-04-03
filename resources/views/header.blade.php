@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/fonts/fontawesome/all.min.css">
     <link rel="stylesheet" href="/css/mystyle.css">
-    
+    {{-- fav icon --}}
+    <link rel="icon" type="image/png" href="{{ asset('imgs/fav.jpg') }}">
+
 </head>
 <body>
